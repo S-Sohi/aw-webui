@@ -1,10 +1,35 @@
-import { AWClient } from 'aw-client';
+import { AWClient, AWReqOptions } from 'aw-client';
 
 import { useSettingsStore } from '~/stores/settings';
+import { useGlobalStore } from '~/stores/global';
 
-let _client: AWClient | null;
+export class CustomAwClient extends AWClient {
+  constructor(clientName: string, options?: AWReqOptions) {
+    super(clientName, options);
+    this.setErrorHandler();
+  }
 
-export function createClient(force?: boolean): AWClient {
+  setErrorHandler() {
+    this.req.interceptors.response.use(
+      res => {
+        return Promise.resolve(res);
+      },
+      rej => {
+        const globalStore = useGlobalStore();
+        globalStore.setMessage(rej.response.data.message);
+        return Promise.resolve(rej.response);
+      }
+    );
+  }
+
+  login(username: string, password: string) {
+    this.req.post('/user/login', { username: username, password: password });
+  }
+}
+
+let _client: CustomAwClient | null;
+
+export function createClient(force?: boolean): CustomAwClient {
   let baseURL = '';
 
   const production = typeof PRODUCTION !== 'undefined' && PRODUCTION;
@@ -17,7 +42,7 @@ export function createClient(force?: boolean): AWClient {
   }
 
   if (!_client || force) {
-    _client = new AWClient('aw-webui', {
+    _client = new CustomAwClient('aw-webui', {
       testing: !production,
       baseURL,
     });
@@ -32,7 +57,7 @@ export function configureClient(): void {
   _client.req.defaults.timeout = 1000 * settings.requestTimeout;
 }
 
-export function getClient(): AWClient {
+export function getClient(): CustomAwClient {
   if (!_client) {
     throw 'Tried to get global AWClient before instantiating it!';
   }

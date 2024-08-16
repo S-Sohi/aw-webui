@@ -14,10 +14,10 @@ div
     tr
       th Created:
       td {{ bucket.created | iso8601 }}
-    tr(v-if="bucket.metadata")
+    tr(v-if='bucket.metadata')
       th First/last event:
       td
-        | {{ bucket.metadata.start}} /
+        | {{ bucket.metadata.start }} /
         | {{ bucket.metadata.end }}
     tr
       th Eventcount:
@@ -26,11 +26,11 @@ div
       th Data:
       td {{ bucket.data }}
 
-  input-timeinterval(v-model="daterange", :maxDuration="maxDuration")
+  input-timeinterval(v-model='daterange', :maxDuration='maxDuration')
 
-  vis-timeline(:buckets="[bucket_with_events]", :showRowLabels="false")
+  vis-timeline(:buckets='[bucket_with_events]', :showRowLabels='false')
 
-  aw-eventlist(:bucket_id="id", @save="updateEvent", :events="events" editable=true)
+  aw-eventlist(:bucket_id='id', @save='updateEvent', :events='events', editable)
 </template>
 
 <script lang="ts">

@@ -22,6 +22,7 @@ const TimespiralView = () => import('./views/TimespiralView.vue');
 const Dev = () => import('./views/Dev.vue');
 const Graph = () => import('./views/Graph.vue');
 const NotFound = () => import('./views/NotFound.vue');
+const Login = () => import('./views/Login.vue');
 
 Vue.use(VueRouter);
 
@@ -34,6 +35,7 @@ const router = new VueRouter({
       },
     },
     { path: '/home', component: Home },
+    { path: '/login', component: Login },
     {
       path: '/activity/:host/:periodLength?/:date?',
       component: Activity,
@@ -75,6 +77,7 @@ const router = new VueRouter({
       component: NotFound,
     },
   ],
+  mode: 'history',
 });
 
 export default router;

@@ -2,29 +2,29 @@
 div
   h3 Settings
 
-  hr
+  //- hr
 
-  DaystartSettings
+  //- DaystartSettings
 
-  hr
+  //- hr
 
-  TimelineDurationSettings
+  //- TimelineDurationSettings
 
-  hr
+  //- hr
 
-  LandingPageSettings
+  //- LandingPageSettings
 
-  hr
+  //- hr
 
-  Theme
+  //- Theme
 
-  hr
+  //- hr
 
-  div(v-if="!$isAndroid")
-    ReleaseNotificationSettings
-    hr
+  //- div(v-if="!$isAndroid")
+  //-   ReleaseNotificationSettings
+  //-   hr
 
-  ColorSettings
+  //- ColorSettings
 
   hr
 
@@ -34,9 +34,9 @@ div
 
   CategorizationSettings
 
-  hr
+  //- hr
 
-  DeveloperSettings
+  //- DeveloperSettings
 </template>
 
 <script lang="ts">

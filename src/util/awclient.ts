@@ -22,8 +22,12 @@ export class CustomAwClient extends AWClient {
     );
   }
 
-  login(username: string, password: string) {
-    this.req.post('/user/login', { username: username, password: password });
+  login(email: string, password: string) {
+    return this.req.post('/user/login', { email, password: password });
+  }
+
+  signup(user) {
+    this.req.post('/user/signup', user);
   }
 }
 

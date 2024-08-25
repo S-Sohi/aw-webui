@@ -15,6 +15,8 @@
 <script lang="ts">
 import { useSettingsStore } from '~/stores/settings';
 import { useServerStore } from '~/stores/server';
+import { useUserStore } from '~/stores/user';
+import { mapState } from 'pinia';
 // if vite is used, you can import css file as module
 //import darkCssUrl from '../static/dark.css?url';
 //import darkCssContent from '../static/dark.css?inline';
@@ -32,6 +34,8 @@ export default {
     fullContainer() {
       return this.$route.meta.fullContainer;
     },
+    ...mapState(useUserStore, { isLoggedIn: 'isLoggedIn' }),
+    ...mapState(useUserStore, { userId: 'userId' }),
   },
 
   async beforeCreate() {

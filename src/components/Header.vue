@@ -1,92 +1,110 @@
 <template lang="pug">
-div(:class="{'fixed-top-padding': fixedTopMenu}")
-  b-navbar.aw-navbar(toggleable="lg" :fixed="fixedTopMenu ? 'top' : null")
+div(:class='{ "fixed-top-padding": fixedTopMenu }')
+  b-navbar.aw-navbar(toggleable='lg', :fixed='fixedTopMenu ? "top" : null')
     // Brand on mobile
     b-navbar-nav.d-block.d-lg-none
-      b-navbar-brand(to="/" style="background-color: transparent;")
-        img.aligh-middle(src="/logo.png" style="height: 1.5em;")
-        span.ml-2.align-middle(style="font-size: 1em; color: #000;") ActivityWatch
+      b-navbar-brand(to='/', style='background-color: transparent')
+        img.aligh-middle(src='/logo.png', style='height: 1.5em')
+        span.ml-2.align-middle(style='font-size: 1em; color: #000') ActivityWatch
 
-    b-navbar-toggle(target="nav-collapse")
+    b-navbar-toggle(target='nav-collapse')
 
     b-collapse#nav-collapse(is-nav)
-      b-navbar-nav
+      b-navbar-nav(v-if='isLoggedIn')
         // If only a single view (the default) is available
-        b-nav-item(v-if="activityViews && activityViews.length === 1", v-for="view in activityViews", :key="view.name", :to="view.pathUrl")
-          div.px-2.px-lg-1
-            icon(name="calendar-day")
+        b-nav-item(
+          v-if='activityViews && activityViews.length === 1',
+          v-for='view in activityViews',
+          :key='view.name',
+          :to='view.pathUrl'
+        )
+          .px-2.px-lg-1
+            icon(name='calendar-day')
             | Activity
 
         // If multiple (or no) activity views are available
-        b-nav-item-dropdown(v-if="!activityViews || activityViews.length !== 1")
-          template(slot="button-content")
-            div.d-inline.px-2.px-lg-1
-              icon(name="calendar-day")
+        b-nav-item-dropdown(v-if='!activityViews || activityViews.length !== 1')
+          template(slot='button-content')
+            .d-inline.px-2.px-lg-1
+              icon(name='calendar-day')
               | Activity
-          b-dropdown-item(v-if="activityViews === null", disabled)
+          b-dropdown-item(v-if='activityViews === null', disabled)
             span.text-muted Loading...
             br
-          b-dropdown-item(v-else-if="activityViews && activityViews.length <= 0", disabled)
+          b-dropdown-item(v-else-if='activityViews && activityViews.length <= 0', disabled)
             | No activity reports available
             br
             small Make sure you have both an AFK and window watcher running
-          b-dropdown-item(v-for="view in activityViews", :key="view.name", :to="view.pathUrl")
-            icon(:name="view.icon")
+          b-dropdown-item(v-for='view in activityViews', :key='view.name', :to='view.pathUrl')
+            icon(:name='view.icon')
             | {{ view.name }}
 
-        b-nav-item(to="/timeline" style="font-color: #000;")
-          div.px-2.px-lg-1
-            icon(name="stream")
+        b-nav-item(to='/timeline', style='font-color: #000')
+          .px-2.px-lg-1
+            icon(name='stream')
             | Timeline
 
-        b-nav-item(to="/stopwatch")
-          div.px-2.px-lg-1
-            icon(name="stopwatch")
-            | Stopwatch
+        //- b-nav-item(to='/stopwatch')
+        //-   .px-2.px-lg-1
+        //-     icon(name='stopwatch')
+        //-     | Stopwatch
 
       // Brand on large screens (centered)
       b-navbar-nav.abs-center.d-none.d-lg-block
-        b-navbar-brand(to="/" style="background-color: transparent;")
-          img.ml-0.aligh-middle(src="/logo.png" style="height: 1.5em;")
-          span.ml-2.align-middle(style="font-size: 1.0em; color: #000;") ActivityWatch
+        b-navbar-brand(to='/', style='background-color: transparent')
+          img.ml-0.aligh-middle(src='/logo.png', style='height: 1.5em')
+          span.ml-2.align-middle(style='font-size: 1em; color: #000') ActivityWatch
 
       b-navbar-nav.ml-auto
-        b-nav-item-dropdown
-          template(slot="button-content")
-            div.d-inline.px-2.px-lg-1
-              icon(name="tools")
-              | Tools
-          b-dropdown-item(to="/search")
-            icon(name="search")
-            | Search
-          b-dropdown-item(to="/trends" v-if="devmode")
-            icon(name="chart-line")
-            | Trends
-          b-dropdown-item(to="/report" v-if="devmode")
-            icon(name="chart-pie")
-            | Report
-          b-dropdown-item(to="/alerts" v-if="devmode")
-            icon(name="flag-checkered")
-            | Alerts
-          b-dropdown-item(to="/timespiral" v-if="devmode")
-            icon(name="history")
-            | Timespiral
-          b-dropdown-item(to="/query")
-            icon(name="code")
-            | Query
-          b-dropdown-item(to="/graph" v-if="devmode")
-            // TODO: use circle-nodes instead in the future
-            icon(name="project-diagram")
-            | Graph
+        //- b-nav-item-dropdown
+        //-   template(slot='button-content')
+        //-     .d-inline.px-2.px-lg-1
+        //-       icon(name='tools')
+        //-       | Tools
+        //-   b-dropdown-item(to='/search')
+        //-     icon(name='search')
+        //-     | Search
+        //-   b-dropdown-item(to='/trends', v-if='devmode')
+        //-     icon(name='chart-line')
+        //-     | Trends
+        //-   b-dropdown-item(to='/report', v-if='devmode')
+        //-     icon(name='chart-pie')
+        //-     | Report
+        //-   b-dropdown-item(to='/alerts', v-if='devmode')
+        //-     icon(name='flag-checkered')
+        //-     | Alerts
+        //-   b-dropdown-item(to='/timespiral', v-if='devmode')
+        //-     icon(name='history')
+        //-     | Timespiral
+        //-   b-dropdown-item(to='/query')
+        //-     icon(name='code')
+        //-     | Query
+        //-   b-dropdown-item(to='/graph', v-if='devmode')
+        //-     // TODO: use circle-nodes instead in the future
+        //-     icon(name='project-diagram')
+        //-     | Graph
 
-        b-nav-item(to="/buckets")
-          div.px-2.px-lg-1
-            icon(name="database")
-            | Raw Data
-        b-nav-item(to="/settings")
-          div.px-2.px-lg-1
-            icon(name="cog")
+        //- b-nav-item(to='/buckets')
+        //-   .px-2.px-lg-1
+        //-     icon(name='database')
+        //-     | Raw Data
+        b-nav-item
+          .px-2.px-lg-1
+
+        b-nav-item(to='/settings', v-if='isLoggedIn')
+          .px-2.px-lg-1
+            icon(name='cog')
             | Settings
+
+        b-nav-item(@click='logout', v-if='isLoggedIn')
+          .px-2.px-lg-1
+            icon(name='exit')
+            | Logout
+
+        b-nav-item(@click='login', v-if='!isLoggedIn && !isInLoginPage')
+          .px-2.px-lg-1
+            icon(name='exit')
+            | Login
 </template>
 
 <style lang="scss" scoped>
@@ -126,6 +144,7 @@ import { mapState } from 'pinia';
 import { useSettingsStore } from '~/stores/settings';
 import { useBucketsStore } from '~/stores/buckets';
 import { IBucket } from '~/util/interfaces';
+import { useUserStore } from '@/stores/user';
 
 export default {
   name: 'Header',
@@ -134,10 +153,15 @@ export default {
       activityViews: null,
       // Make configurable?
       fixedTopMenu: this.$isAndroid,
+      userStore: useUserStore(),
     };
   },
   computed: {
     ...mapState(useSettingsStore, ['devmode']),
+    ...mapState(useUserStore, ['isLoggedIn']),
+    isInLoginPage() {
+      return this.$route.path === '/login';
+    },
   },
   mounted: async function () {
     const bucketStore = useBucketsStore();
@@ -179,6 +203,15 @@ export default {
     });
 
     this.activityViews = activityViews;
+  },
+
+  methods: {
+    logout() {
+      this.userStore.logout();
+    },
+    login() {
+      this.$router.push('login');
+    },
   },
 };
 </script>

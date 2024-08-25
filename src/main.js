@@ -22,11 +22,11 @@ import './style/style.scss';
 // Loads all the filters
 import './util/filters.js';
 
-// Sets up the routing and the base app (using vue-router)
-import router from './route.js';
-
 // Sets up the pinia store
 import pinia from './stores';
+
+// Sets up the routing and the base app (using vue-router)
+import router from './route.js';
 
 // Register Font Awesome icon component
 Vue.component('icon', () => import('vue-awesome/components/Icon.vue'));

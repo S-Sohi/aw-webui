@@ -1,6 +1,9 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 
+// import { useUserStore } from './stores/user';
+// const userStore = useUserStore();
+
 const Home = () => import('./views/Home.vue');
 
 // Activity views for desktop
@@ -23,6 +26,7 @@ const Dev = () => import('./views/Dev.vue');
 const Graph = () => import('./views/Graph.vue');
 const NotFound = () => import('./views/NotFound.vue');
 const Login = () => import('./views/Login.vue');
+const Signup = () => import('./views/Signup.vue');
 
 Vue.use(VueRouter);
 
@@ -36,6 +40,7 @@ const router = new VueRouter({
     },
     { path: '/home', component: Home },
     { path: '/login', component: Login },
+    { path: '/signup', component: Signup },
     {
       path: '/activity/:host/:periodLength?/:date?',
       component: Activity,
@@ -79,5 +84,9 @@ const router = new VueRouter({
   ],
   mode: 'history',
 });
+
+// router.beforeEach((to, from) => {
+//   console.log(userStore);
+// });
 
 export default router;

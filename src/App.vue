@@ -17,6 +17,7 @@ import { useSettingsStore } from '~/stores/settings';
 import { useServerStore } from '~/stores/server';
 import { useUserStore } from '~/stores/user';
 import { mapState } from 'pinia';
+import { getClient } from './util/awclient';
 // if vite is used, you can import css file as module
 //import darkCssUrl from '../static/dark.css?url';
 //import darkCssContent from '../static/dark.css?inline';
@@ -27,6 +28,7 @@ export default {
       activityViews: [],
       isNewReleaseCheckEnabled: !process.env.VUE_APP_ON_ANDROID,
       loaded: false,
+      userStore: useUserStore(),
     };
   },
 
@@ -69,6 +71,9 @@ export default {
   mounted: async function () {
     const serverStore = useServerStore();
     await serverStore.getInfo();
+    if (this.isLoggedIn) {
+      this.userStore.setToken();
+    }
   },
 };
 </script>

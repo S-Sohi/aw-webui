@@ -34,10 +34,18 @@ export const useUserStore = defineStore('user', {
       const client = getClient();
       const response = await client.login(email, password);
       if (response.status === 200) {
-        this.setLoginState(response.data);
+        const token = response.data;
+        this.setLoginState(token);
+        this.setToken();
         this.persistToLocalStorage();
-        route.push('/dashboard');
+        this.getUser();
+        route.push('/teams');
       }
+    },
+
+    setToken() {
+      const client = getClient();
+      client.setToken(this.token);
     },
 
     signup(user: UserSignupModel) {
@@ -72,6 +80,9 @@ export const useUserStore = defineStore('user', {
       localStorage.removeItem('user');
     },
 
-    // getUser() {},
+    getUser() {
+      const client = getClient();
+      return client.getUser();
+    },
   },
 });

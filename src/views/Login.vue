@@ -6,6 +6,7 @@
         type="email"
         placeholder="email"
         v-model="email"
+        autofocus
         required
       ></b-form-input>
       <b-form-input

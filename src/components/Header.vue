@@ -1,6 +1,10 @@
 <template lang="pug">
 div(:class='{ "fixed-top-padding": fixedTopMenu }')
-  b-navbar.aw-navbar(toggleable='lg', :fixed='fixedTopMenu ? "top" : null')
+  b-navbar.aw-navbar.custom-navbar(
+    toggleable='lg',
+    :fixed='fixedTopMenu ? "top" : null',
+    style='height: 60px'
+  )
     // Brand on mobile
     b-navbar-nav.d-block.d-lg-none
       b-navbar-brand(to='/', style='background-color: transparent')
@@ -103,7 +107,7 @@ div(:class='{ "fixed-top-padding": fixedTopMenu }')
 
         b-nav-item(@click='login', v-if='!isLoggedIn && !isInLoginPage')
           .px-2.px-lg-1
-            icon(name='exit')
+            icon(name='door')
             | Login
 </template>
 
@@ -208,6 +212,7 @@ export default {
   methods: {
     logout() {
       this.userStore.logout();
+      this.$router.push('/');
     },
     login() {
       this.$router.push('login');

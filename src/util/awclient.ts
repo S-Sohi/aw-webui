@@ -29,6 +29,30 @@ export class CustomAwClient extends AWClient {
   signup(user) {
     this.req.post('/user/signup', user);
   }
+
+  setToken(token: string) {
+    this.req.defaults.headers['Authorization'] = `Bearer ${token}`;
+  }
+
+  clearToken() {
+    delete this.req.defaults.headers['Authorization'];
+  }
+
+  getUser() {
+    return this.req.get('/user/getuser');
+  }
+
+  getTeams() {
+    return this.req.get('/teams');
+  }
+
+  addTeam(team) {
+    return this.req.post('/teams', team);
+  }
+
+  editTeam(team) {
+    return this.req.put('/teams', team);
+  }
 }
 
 let _client: CustomAwClient | null;

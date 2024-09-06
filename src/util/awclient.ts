@@ -42,6 +42,10 @@ export class CustomAwClient extends AWClient {
     return this.req.get('/user/getuser');
   }
 
+  getAllUsers() {
+    return this.req.get('/user/users');
+  }
+
   getTeams() {
     return this.req.get('/teams');
   }
@@ -52,6 +56,18 @@ export class CustomAwClient extends AWClient {
 
   editTeam(team) {
     return this.req.put('/teams', team);
+  }
+
+  getTeam(teamId: number) {
+    return this.req.get(`/teams/team/${teamId}`);
+  }
+
+  addMembers(teamId: number, members: number[]) {
+    return this.req.post(`/teams/${teamId}/members`, members);
+  }
+
+  removeMember(teamId: number, memberId: number) {
+    return this.req.delete(`/teams/${teamId}/member/${memberId}`);
   }
 }
 

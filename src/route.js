@@ -28,6 +28,7 @@ const NotFound = () => import('./views/NotFound.vue');
 const Login = () => import('./views/Login.vue');
 const Signup = () => import('./views/Signup.vue');
 const Teams = () => import('./views/Teams.vue');
+const TeamDetail = () => import('./views/TeamDetail.vue');
 
 Vue.use(VueRouter);
 
@@ -43,6 +44,7 @@ const router = new VueRouter({
     { path: '/login', component: Login },
     { path: '/signup', component: Signup },
     { path: '/teams', component: Teams },
+    { path: '/team/:id', component: TeamDetail },
     {
       path: '/activity/:host/:periodLength?/:date?',
       component: Activity,
@@ -91,7 +93,6 @@ router.beforeEach((to, from, next) => {
   if (!userStore) {
     userStore = useUserStore();
   }
-  console.log(userStore);
   next();
 });
 

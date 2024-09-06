@@ -10,6 +10,12 @@
       ></b-form-input>
       <b-form-input
         class="my-3"
+        placeholder="username"
+        v-model="model.username"
+        required
+      ></b-form-input>
+      <b-form-input
+        class="my-3"
         placeholder="email"
         type="email"
         v-model="model.email"
@@ -40,6 +46,7 @@ export default {
     model: {
       name: '',
       lastname: '',
+      username: '',
       email: '',
       password: '',
     },

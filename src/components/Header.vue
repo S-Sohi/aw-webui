@@ -102,12 +102,12 @@ div(:class='{ "fixed-top-padding": fixedTopMenu }')
 
         b-nav-item(@click='logout', v-if='isLoggedIn')
           .px-2.px-lg-1
-            icon(name='exit')
+            //- icon(name='exit')
             | Logout
 
         b-nav-item(@click='login', v-if='!isLoggedIn && !isInLoginPage')
           .px-2.px-lg-1
-            icon(name='door')
+            //- icon(name='door')
             | Login
 </template>
 

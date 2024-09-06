@@ -36,5 +36,23 @@ export const useTeamStore = defineStore('team', {
       const client = getClient();
       client.editTeam(team);
     },
+
+    async getTeam(teamId: number) {
+      const client = getClient();
+      const response = await client.getTeam(teamId);
+      return response.data;
+    },
+
+    async addMembers(teamId: number, members: number[]) {
+      const client = getClient();
+      const response = await client.addMembers(teamId, members);
+      return response.data;
+    },
+
+    async removeMember(teamId: number, memberId: number) {
+      const client = getClient();
+      const response = await client.removeMember(teamId, memberId);
+      return response.data;
+    },
   },
 });

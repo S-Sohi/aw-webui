@@ -84,5 +84,11 @@ export const useUserStore = defineStore('user', {
       const client = getClient();
       return client.getUser();
     },
+
+    async getAllUsers() {
+      const client = getClient();
+      const response = await client.getAllUsers();
+      return response.data;
+    },
   },
 });

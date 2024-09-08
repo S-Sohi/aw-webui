@@ -15,38 +15,16 @@ div(:class='{ "fixed-top-padding": fixedTopMenu }')
 
     b-collapse#nav-collapse(is-nav)
       b-navbar-nav(v-if='isLoggedIn')
-        // If only a single view (the default) is available
-        b-nav-item(
-          v-if='activityViews && activityViews.length === 1',
-          v-for='view in activityViews',
-          :key='view.name',
-          :to='view.pathUrl'
-        )
-          .px-2.px-lg-1
-            icon(name='calendar-day')
-            | Activity
 
-        // If multiple (or no) activity views are available
-        b-nav-item-dropdown(v-if='!activityViews || activityViews.length !== 1')
-          template(slot='button-content')
-            .d-inline.px-2.px-lg-1
-              icon(name='calendar-day')
-              | Activity
-          b-dropdown-item(v-if='activityViews === null', disabled)
-            span.text-muted Loading...
-            br
-          b-dropdown-item(v-else-if='activityViews && activityViews.length <= 0', disabled)
-            | No activity reports available
-            br
-            small Make sure you have both an AFK and window watcher running
-          b-dropdown-item(v-for='view in activityViews', :key='view.name', :to='view.pathUrl')
-            icon(:name='view.icon')
-            | {{ view.name }}
-
-        b-nav-item(to='/timeline', style='font-color: #000')
+        b-nav-item(to='/teams', style='font-color: #000')
           .px-2.px-lg-1
             icon(name='stream')
-            | Timeline
+            | Teams
+
+        b-nav-item(to='/users', style='font-color: #000')
+          .px-2.px-lg-1
+            icon(name='stream')
+            | Users
 
         //- b-nav-item(to='/stopwatch')
         //-   .px-2.px-lg-1

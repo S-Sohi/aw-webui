@@ -3,18 +3,11 @@
     <h3 class="name__text">Team: {{ team.name }}</h3>
     <h4>Members:</h4>
     <div>
-      <b-table
-        show-empty
-        striped
-        hover
-        :items="members"
-        :fields="fields"
-        :empty-text="'No members found'"
-      >
+      <b-table show-empty striped hover :items="members" :fields="fields" :empty-text="'No members found'">
         <template #cell(actions)="data">
           <b-row class="d-flex justify-content-start align-items-center actions__container">
-            <b-button @click="editItem(data.item)" size="sm" variant="primary"
-              ><icon name="eye"></icon>
+            <b-button @click="viewActivity(data.item)" size="sm" variant="primary">
+              <icon name="eye"></icon>
               Activity
             </b-button>
             <b-button @click="deleteItem(data.item)" size="sm" variant="danger">
@@ -30,10 +23,9 @@
       Add member
     </b-button>
     <b-modal title="Add Member" ref="addMember" @ok="addNewMembers">
-      <UserSelector
-        :excludeIds="members.map(member => member.user_id)"
-        @selected-members-changed="selectedMembersChanged"
-      ></UserSelector>
+      <UserSelector :excludeIds="members.map(member => member.user_id)"
+        @selected-members-changed="selectedMembersChanged">
+      </UserSelector>
     </b-modal>
   </div>
 </template>
@@ -90,6 +82,10 @@ export default {
       await this.teamStore.removeMember(this.teamId, item.id);
       this.getTeam();
     },
+
+    viewActivity(item) {
+      this.$router.push(`/user/${item.id}/${this.teamId}`)
+    }
   },
 };
 </script>
@@ -97,9 +93,11 @@ export default {
 .team-detail__container {
   height: 80vh;
 }
+
 .name__text {
   margin-bottom: 100px;
 }
+
 .actions__container {
   gap: 5px;
 }

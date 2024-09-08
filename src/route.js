@@ -29,6 +29,7 @@ const Login = () => import('./views/Login.vue');
 const Signup = () => import('./views/Signup.vue');
 const Teams = () => import('./views/Teams.vue');
 const TeamDetail = () => import('./views/TeamDetail.vue');
+const UserActivity = () => import('./views/UserActivity.vue');
 
 Vue.use(VueRouter);
 
@@ -45,6 +46,7 @@ const router = new VueRouter({
     { path: '/signup', component: Signup },
     { path: '/teams', component: Teams },
     { path: '/team/:id', component: TeamDetail },
+    { path: '/user/:teamId/:userId', component: UserActivity, meta: { fullContainer: true } },
     {
       path: '/activity/:host/:periodLength?/:date?',
       component: Activity,

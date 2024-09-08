@@ -1,7 +1,13 @@
-import { AWClient, AWReqOptions } from 'aw-client';
+import { AWClient, AWReqOptions, IBucket, IEvent } from 'aw-client';
 
 import { useSettingsStore } from '~/stores/settings';
 import { useGlobalStore } from '~/stores/global';
+
+interface GetEventsOptions {
+  start?: Date;
+  end?: Date;
+  limit?: number;
+}
 
 export class CustomAwClient extends AWClient {
   constructor(clientName: string, options?: AWReqOptions) {
@@ -68,6 +74,16 @@ export class CustomAwClient extends AWClient {
 
   removeMember(teamId: number, memberId: number) {
     return this.req.delete(`/teams/${teamId}/member/${memberId}`);
+  }
+
+  override async getEvents(bucketId: string, params?: GetEventsOptions): Promise<IEvent[]> {
+    const response = await this.req.get(`/0/buckets/${bucketId}/events?start=${params.start}&end=${params.end}&limit=${params.limit}`)
+    return response.data;
+  }
+
+  override async getBuckets(): Promise<{ [bucketId: string]: IBucket; }> {
+    const response = await this.req.get(`/0/buckets/`);
+    return response.data;
   }
 }
 

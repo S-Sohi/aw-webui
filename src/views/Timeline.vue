@@ -33,8 +33,8 @@ div
     div(style="clear: both")
     vis-timeline(:buckets="buckets", :showRowLabels='true', :queriedInterval="daterange")
 
-    aw-devonly(reason="Not ready for production, still experimenting")
-      aw-calendar(:buckets="buckets")
+    //- aw-devonly(reason="Not ready for production, still experimenting")
+    //-   aw-calendar(:buckets="buckets")
   div(v-else)
     h1.aw-loading Loading...
 </template>

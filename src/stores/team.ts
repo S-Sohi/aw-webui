@@ -54,5 +54,17 @@ export const useTeamStore = defineStore('team', {
       const response = await client.removeMember(teamId, memberId);
       return response.data;
     },
+
+    async addConfiguration(teamId: number, config: any) {
+      const client = getClient();
+      const response = await client.addConfiguration(teamId, config);
+      return response.data;
+    },
+
+    async getConfiguration(teamId: number) {
+      const client = getClient();
+      const response = await client.getConfiguration(teamId);
+      return response.data;
+    },
   },
 });

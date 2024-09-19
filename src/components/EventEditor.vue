@@ -13,10 +13,10 @@ b-modal(v-if="event && event.id", :id="'edit-modal-' + event.id", ref="eventEdit
         td {{ event.id }}
       tr
         th Start
-        datetime(type="datetime" v-model="start")
+        datetime(type="datetime" v-model="start" disabled="true")
       tr
         th End
-        datetime(type="datetime" v-model="end")
+        datetime(type="datetime" v-model="end" disabled="true")
       tr
         th Duration
         td {{ editedEvent.duration | friendlyduration }}
@@ -34,19 +34,19 @@ b-modal(v-if="event && event.id", :id="'edit-modal-' + event.id", ref="eventEdit
           b-checkbox(v-if="typeof event.data[k] === typeof true", v-model="editedEvent.data[k]", style="margin: 0.25em")
           b-input(v-if="typeof event.data[k] === typeof 'string'", v-model="editedEvent.data[k]", size="sm")
 
-    hr
+    // hr
 
-    div.float-left
-      b-button.mx-1(@click="delete_(); close();" variant="danger")
-        icon.mx-1(name="trash")
-        | Delete
-    div.float-right
-      b-button.mx-1(@click="close")
-        icon.mx-1(name="times")
-        | Cancel
-      b-button.mx-1(@click="save(); close();", variant="primary")
-        icon.mx-1(name="save")
-        | Save
+    // div.float-left
+    //   b-button.mx-1(@click="delete_(); close();" variant="danger")
+    //     icon.mx-1(name="trash")
+    //     | Delete
+    // div.float-right
+    //   b-button.mx-1(@click="close")
+    //     icon.mx-1(name="times")
+    //     | Cancel
+    //   b-button.mx-1(@click="save(); close();", variant="primary")
+    //     icon.mx-1(name="save")
+    //     | Save
 </template>
 
 <style lang="scss"></style>

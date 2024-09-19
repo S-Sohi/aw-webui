@@ -76,6 +76,14 @@ export class CustomAwClient extends AWClient {
     return this.req.delete(`/teams/${teamId}/member/${memberId}`);
   }
 
+  getConfiguration(teamId:number){
+    return this.req.get(`/teams/configuration/${teamId}`);
+  }
+
+  addConfiguration(teamId:number, configuration:any){
+    return this.req.post(`/teams/${teamId}/configuration`, configuration);
+  }
+
   override async getEvents(bucketId: string, params?: GetEventsOptions): Promise<IEvent[]> {
     const response = await this.req.get(`/0/buckets/${bucketId}/events?start=${params.start}&end=${params.end}&limit=${params.limit}`)
     return response.data;

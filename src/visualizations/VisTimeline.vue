@@ -177,9 +177,9 @@ export default {
           console.log('Editing event', event, ', in bucket', bucketId);
           this.openEditor();
         });
-        alert(
-          "Note: Changes won't be reflected in the timeline until the page is refreshed. This will be improved in a future version."
-        );
+        // alert(
+        //   "Note: Changes won't be reflected in the timeline until the page is refreshed. This will be improved in a future version."
+        // );
       } else {
         alert('selected multiple items: ' + JSON.stringify(properties.items));
       }

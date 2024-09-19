@@ -1,6 +1,21 @@
 <template>
   <div class="team-detail__container">
     <h3 class="name__text">Team: {{ team.name }}</h3>
+    <h4>Configurations:</h4>
+    <b-row class="d-flex justify-content-start align-items-center apps__container">
+      Apps:
+      <template v-if="apps.length > 0">
+        <Chip variant="secondary" :label="app" :removable="false" v-for="app of apps" :key="app">
+        </Chip>
+      </template>
+      <template v-else>
+        No app found.
+      </template>
+    </b-row>
+    <b-button variant="secondary" class="my-5 mx-1" @click="editConfiguration">
+      <icon name="pen"></icon>
+      Edit Configuration
+    </b-button>
     <h4>Members:</h4>
     <div>
       <b-table show-empty striped hover :items="members" :fields="fields" :empty-text="'No members found'">
@@ -27,6 +42,9 @@
         @selected-members-changed="selectedMembersChanged">
       </UserSelector>
     </b-modal>
+    <b-modal title="Edit Configuration" ref="configuration" @ok="updateConfiguration">
+      <TeamConfigSelector :team-id="teamId" @selectedAppsChanged="selectedAppsChanged"></TeamConfigSelector>
+    </b-modal>
   </div>
 </template>
 
@@ -34,39 +52,46 @@
 import 'vue-awesome/icons/trash';
 import 'vue-awesome/icons/eye';
 import 'vue-awesome/icons/plus';
+import 'vue-awesome/icons/pen';
 import { useTeamStore } from '@/stores/team';
 import UserSelector from '@/components/UserSelector.vue';
+import TeamConfigSelector from '@/components/TeamConfigSelector.vue';
+import Chip from '@/components/Chip.vue';
 export default {
   components: {
     UserSelector,
+    TeamConfigSelector,
+    Chip
   },
   data() {
     return {
       // Note `isActive` is left out and will not appear in the rendered table
       fields: ['name', 'lastname', 'email', { key: 'actions', label: 'actions' }],
       members: [
-        // { isActive: true, age: 40, first_name: 'Dickerson', last_name: 'Macdonald' },
-        // { isActive: false, age: 21, first_name: 'Larsen', last_name: 'Shaw' },
-        // { isActive: false, age: 89, first_name: 'Geneva', last_name: 'Wilson' },
-        // { isActive: true, age: 38, first_name: 'Jami', last_name: 'Carney' },
       ],
+      apps: [],
       teamId: this.$route.params['id'],
       team: {},
       teamStore: useTeamStore(),
       selectedMembers: [],
+      selectedApps: []
     };
   },
   mounted() {
     this.getTeam();
   },
+
   methods: {
     async getTeam() {
       this.team = await this.teamStore.getTeam(this.teamId);
       this.members = this.team.members;
+      this.apps = this.team.apps;
     },
+
     addMember() {
       this.$refs['addMember'].show();
     },
+
     selectedMembersChanged(membersId) {
       this.selectedMembers = membersId;
     },
@@ -85,6 +110,19 @@ export default {
 
     viewActivity(item) {
       this.$router.push(`/user/${item.id}/${this.teamId}`)
+    },
+
+    selectedAppsChanged(apps) {
+      this.selectedApps = apps
+    },
+
+    editConfiguration() {
+      this.$refs['configuration'].show();
+    },
+
+    updateConfiguration() {
+      this.teamStore.addConfiguration(this.teamId, this.selectedApps);
+      this.getTeam();
     }
   },
 };
@@ -95,10 +133,15 @@ export default {
 }
 
 .name__text {
-  margin-bottom: 100px;
+  margin-bottom: 50px;
 }
 
 .actions__container {
   gap: 5px;
+}
+
+.apps__container {
+  gap: 5px;
+  padding: 0 20px;
 }
 </style>

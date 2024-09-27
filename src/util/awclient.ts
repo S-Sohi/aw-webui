@@ -7,6 +7,7 @@ interface GetEventsOptions {
   start?: Date;
   end?: Date;
   limit?: number;
+  teamId?: number;
 }
 
 export class CustomAwClient extends AWClient {
@@ -76,11 +77,11 @@ export class CustomAwClient extends AWClient {
     return this.req.delete(`/teams/${teamId}/member/${memberId}`);
   }
 
-  getConfiguration(teamId:number){
+  getConfiguration(teamId: number) {
     return this.req.get(`/teams/configuration/${teamId}`);
   }
 
-  addConfiguration(teamId:number, configuration:any){
+  addConfiguration(teamId: number, configuration: any) {
     return this.req.post(`/teams/${teamId}/configuration`, configuration);
   }
 
@@ -89,8 +90,18 @@ export class CustomAwClient extends AWClient {
     return response.data;
   }
 
-  override async getBuckets(): Promise<{ [bucketId: string]: IBucket; }> {
-    const response = await this.req.get(`/0/buckets/`);
+  async getUserBuckets(userId: number): Promise<{ [bucketId: string]: IBucket; }> {
+    const response = await this.req.get(`/0/buckets/${userId}`);
+    return response.data;
+  }
+
+  async getBucket(bucketId: number): Promise<IBucket> {
+    const response = await this.req.get(`/0/buckets/${bucketId}/info`);
+    return response.data;
+  }
+
+  async getUserEvents(bucketId: string, params?: GetEventsOptions): Promise<IEvent[]> {
+    const response = await this.req.get(`/0/buckets/${bucketId}/events?start=${params.start}&end=${params.end}&limit=${params.limit}&team_id=${params.teamId}`)
     return response.data;
   }
 }

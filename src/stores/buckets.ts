@@ -190,31 +190,35 @@ export const useBucketsStore = defineStore('buckets', {
       start,
       end,
       limit,
+      teamId
     }: {
-      id: string;
+      id: number;
       start?: Date;
       end?: Date;
       limit?: number;
+      teamId?: number
     }) {
       await this.ensureLoaded();
-      const bucket = _.cloneDeep(this.getBucket(id));
-      bucket.events = await getClient().getEvents(bucket.id, {
+      const client = getClient();
+      const bucket = await client.getBucket(id) as any;
+      bucket.events = await getClient().getUserEvents(bucket.bid, {
         start,
         end,
         limit: limit || -1,
+        teamId
       });
       return bucket;
     },
 
-    async getBucketsWithEvents({ start, end }: { start?: Date; end?: Date }) {
+    async getBucketsWithEvents({ bucketIds, start, end, teamId }) {
       await this.ensureLoaded();
       const buckets = await Promise.all(
         _.map(
-          this.buckets,
-          async bucket => await this.getBucketWithEvents({ id: bucket.id, start, end })
+          bucketIds,
+          async id => await this.getBucketWithEvents({ id, start, end, teamId })
         )
       );
-      return _.orderBy(buckets, [b => b.id], ['asc']);
+      return _.orderBy(buckets, [b => b.bid], ['asc']);
     },
 
     async deleteBucket({ bucketId }: { bucketId: string }) {

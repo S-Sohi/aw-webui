@@ -312,8 +312,10 @@ export default {
       await useBucketsStore().ensureLoaded();
       this.timeline_buckets = Object.freeze(
         await useBucketsStore().getBucketsWithEvents({
+          bucketIds: [],
           start: this.timeline_daterange[0].format(),
           end: this.timeline_daterange[1].format(),
+          teamId: 1
         })
       );
     },

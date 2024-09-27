@@ -109,7 +109,7 @@ export default {
     },
 
     viewActivity(item) {
-      this.$router.push(`/user/${item.id}/${this.teamId}`)
+      this.$router.push(`/user/${item.user_id}/${this.teamId}`)
     },
 
     selectedAppsChanged(apps) {

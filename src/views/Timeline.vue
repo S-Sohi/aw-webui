@@ -12,20 +12,20 @@ div
       b Filters
     div.p-2.bg-light
       table
-        tr
-          th.pt-2.pr-3
-            label Host:
-          td
-              select(v-model="filter_hostname")
-                option(:value='null') All
-                option(v-for="host in hosts", :value="host") {{ host }}
-        tr
-          th.pt-2.pr-3
-            label Client:
-          td
-            select(v-model="filter_client")
-              option(:value='null') All
-              option(v-for="client in clients", :value="client") {{ client }}
+        //- tr
+        //-   th.pt-2.pr-3
+        //-     label Host:
+        //-   td
+        //-       select(v-model="filter_hostname")
+        //-         option(:value='null') All
+        //-         option(v-for="host in hosts", :value="host") {{ host }}
+        //- tr
+        //-   th.pt-2.pr-3
+        //-     label Client:
+        //-   td
+        //-     select(v-model="filter_client")
+        //-       option(:value='null') All
+        //-       option(v-for="client in clients", :value="client") {{ client }}
   div(style="float: right; color: #999").d-inline-block.pt-3
     | Drag to pan and scroll to zoom
 
@@ -46,6 +46,7 @@ import { useBucketsStore } from '~/stores/buckets';
 
 export default {
   name: 'Timeline',
+  props: ['bucketIds', 'teamId'],
   data() {
     return {
       all_buckets: null,
@@ -77,15 +78,20 @@ export default {
     filter_client() {
       this.getBuckets();
     },
+    bucketIds() {
+      this.getBuckets();
+    }
   },
   methods: {
     getBuckets: async function () {
       if (this.daterange == null) return;
-
+      if (this.bucketIds.length === 0) return;
       this.all_buckets = Object.freeze(
         await useBucketsStore().getBucketsWithEvents({
+          bucketIds: this.bucketIds,
           start: this.daterange[0].format(),
           end: this.daterange[1].format(),
+          teamId: this.teamId
         })
       );
 
@@ -114,7 +120,7 @@ details {
   position: relative;
 }
 
-details[open] summary ~ * {
+details[open] summary~* {
   visibility: visible;
   position: absolute;
   border: 1px solid #ddd;

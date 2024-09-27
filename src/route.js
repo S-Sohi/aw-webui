@@ -38,15 +38,15 @@ const router = new VueRouter({
     {
       path: '/',
       redirect: _to => {
-        return localStorage.landingpage || '/home';
+        return localStorage.landingpage || '/login';
       },
     },
-    { path: '/home', component: Home },
+    // { path: '/home', component: Home },
     { path: '/login', component: Login },
     { path: '/signup', component: Signup },
     { path: '/teams', component: Teams },
     { path: '/team/:id', component: TeamDetail },
-    { path: '/user/:teamId/:userId', component: UserActivity, meta: { fullContainer: true } },
+    { path: '/user/:userId/:teamId', component: UserActivity, meta: { fullContainer: true } },
     {
       path: '/activity/:host/:periodLength?/:date?',
       component: Activity,

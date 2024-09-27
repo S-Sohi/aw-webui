@@ -16,13 +16,13 @@ export const useServerStore = defineStore('server', {
   }),
 
   actions: {
-    async getInfo() {
-      try {
-        const info = await getClient().getInfo();
-        this.$patch({ info: info });
-      } catch (e) {
-        console.error('Unable to connect: ', e);
-      }
-    },
+    // async getInfo() {
+    //   try {
+    //     const info = await getClient().getInfo();
+    //     this.$patch({ info: info });
+    //   } catch (e) {
+    //     console.error('Unable to connect: ', e);
+    //   }
+    // },
   },
 });

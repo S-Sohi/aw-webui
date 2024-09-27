@@ -111,7 +111,7 @@ export default {
         events.sort((a, b) => a.timestamp.valueOf() - b.timestamp.valueOf());
         _.each(events, e => {
           data.push([
-            bucket.id,
+            bucket.bid,
             getTitleAttr(bucket, e),
             buildTooltip(bucket, e),
             new Date(e.timestamp),
@@ -166,7 +166,7 @@ export default {
       } else if (properties.items.length == 1) {
         const event = this.chartData[properties.items[0]][6];
         const groupId = this.items[properties.items[0]].group;
-        const bucketId = _.find(this.groups, g => g.id == groupId).content;
+        const bucketId = _.find(this.groups, g => g.id == groupId).id;
 
         // We retrieve the full event to ensure if's not cut-off by the query range
         // See: https://github.com/ActivityWatch/aw-webui/pull/320#issuecomment-1056921587
@@ -199,7 +199,7 @@ export default {
       let groups = _.map(buckets, bucket => {
         // If bucket id is not set, then if only one bucket is given, assume result of a search/query and set a constant placeholder one.
         // Otherwise, log a warning.
-        if (bucket.id === undefined) {
+        if (bucket.bid === undefined) {
           if (buckets.length === 1) {
             bucket.id = 'events';
           } else {
@@ -208,7 +208,7 @@ export default {
             );
           }
         }
-        return { id: bucket.id, content: this.showRowLabels ? bucket.id : '' };
+        return { id: bucket.bid, content: this.showRowLabels ? bucket.type : '' };
       });
 
       // Build items
@@ -225,7 +225,6 @@ export default {
           style: `background-color: ${bgColor}; border-color: ${borderColor}`,
         };
       });
-
       if (groups.length > 0 && items.length > 0) {
         if (this.queriedInterval && this.showQueriedInterval) {
           const duration = this.queriedInterval[1].diff(this.queriedInterval[0], 'seconds');
@@ -258,14 +257,12 @@ export default {
         this.options.max = end;
         this.timeline.setOptions(this.options);
         this.timeline.setWindow(start, end);
-
         // Hide buckets with no events in the queried range
         const count = _.countBy(items, i => i.group);
         groups = _.filter(groups, g => {
           return count[g.id] && count[g.id] > 0;
         });
         this.timeline.setData({ groups: groups, items: items });
-
         this.items = items;
         this.groups = groups;
       }

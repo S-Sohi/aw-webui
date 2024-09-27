@@ -69,8 +69,6 @@ export default {
   },
 
   mounted: async function () {
-    const serverStore = useServerStore();
-    await serverStore.getInfo();
     if (this.isLoggedIn) {
       this.userStore.setToken();
     }

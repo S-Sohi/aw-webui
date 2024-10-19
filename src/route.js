@@ -88,7 +88,7 @@ const router = new VueRouter({
       component: NotFound,
     },
   ],
-  mode: 'history',
+  mode: 'hash',
 });
 
 router.beforeEach((to, from, next) => {

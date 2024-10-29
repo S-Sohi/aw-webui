@@ -101,7 +101,7 @@ export class CustomAwClient extends AWClient {
   }
 
   async getUserEvents(bucketId: string, params?: GetEventsOptions): Promise<IEvent[]> {
-    const response = await this.req.get(`/0/buckets/${bucketId}/events?start=${params.start}&end=${params.end}&limit=${params.limit}&team_id=${params.teamId}`)
+    const response = await this.req.get(`/0/buckets/${bucketId}/events?start=${encodeURIComponent(params.start.toString())}&end=${encodeURIComponent(params.end.toString())}&limit=${params.limit}&team_id=${params.teamId}`)
     return response.data;
   }
 }

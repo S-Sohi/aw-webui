@@ -147,7 +147,7 @@ export default {
   },
   mounted: async function () {
     const bucketStore = useBucketsStore();
-    await bucketStore.ensureLoaded();
+    // await bucketStore.ensureLoaded();
     const buckets: IBucket[] = bucketStore.buckets;
     const types_by_host = {};
 
